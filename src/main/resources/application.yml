@@ -1,1 +1,5 @@
-spring.application.name=top-java-graduation
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/voting
+    username: dev
+    password: dev

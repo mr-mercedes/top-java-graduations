@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity
@@ -36,4 +37,10 @@ public class Vote extends AbstractBaseEntity {
     @NotNull
     @Column(name = "vote_date", nullable = false)
     private LocalDate voteDate;
+
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
 }

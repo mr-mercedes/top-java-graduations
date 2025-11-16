@@ -10,10 +10,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "restaurants")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
 
     public Restaurant(Set<Menu> menus) {

@@ -1,7 +1,10 @@
 package ru.borovikov.topjavagraduation.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,9 +13,12 @@ import java.util.Set;
 @Table(name = "restaurants")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends AbstractNamedEntity {
+
+    public Restaurant(Set<Menu> menus) {
+        this.menus = menus;
+    }
 
     @OneToMany(
             mappedBy = "restaurant",

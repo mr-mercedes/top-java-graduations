@@ -48,3 +48,15 @@ CREATE TABLE IF NOT EXISTS menu_items
     CONSTRAINT fk_menu_items_menus FOREIGN KEY (menu_id) REFERENCES menus (id) ON DELETE CASCADE,
     CONSTRAINT fk_menu_items_dishes FOREIGN KEY (dish_id) REFERENCES dishes (id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS votes
+(
+    id            BIGINT PRIMARY KEY,
+    user_id       BIGINT NOT NULL,
+    restaurant_id BIGINT NOT NULL,
+    vote_date     DATE   NOT NULL,
+    CONSTRAINT fk_votes_users FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT fk_votes_restaurants FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
+    CONSTRAINT uk_votes_user_date UNIQUE (user_id, vote_date)
+);
+CREATE INDEX IF NOT EXISTS idx_votes_user_date ON votes (user_id, vote_date);

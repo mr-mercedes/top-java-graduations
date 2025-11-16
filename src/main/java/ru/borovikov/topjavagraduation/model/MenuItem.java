@@ -3,7 +3,9 @@ package ru.borovikov.topjavagraduation.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -11,10 +13,17 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "menu_items", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"menu_id", "dish_id"}, name = "uk_menu_items_menu_dish")
 })
 public class MenuItem extends AbstractBaseEntity {
+
+    public MenuItem(Menu menu, Dish dish, BigDecimal price) {
+        this.menu = menu;
+        this.dish = dish;
+        this.price = price;
+    }
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

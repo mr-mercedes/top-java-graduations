@@ -2,23 +2,42 @@ package ru.borovikov.topjavagraduation.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.Instant;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
-@Table(name = "menus")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "menu_date"},
+        name = "uk_menus_restaurant_date")})
 public class Menu extends AbstractNamedEntity {
 
     @NotNull
-    @Column(nullable = false)
-    private Instant day;
+    @Column(name = "menu_date", nullable = false)
+    private LocalDate menuDate;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Dish> dishes;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "menu_dishes",
+            joinColumns = @JoinColumn(name = "menu_id"),
+            inverseJoinColumns = @JoinColumn(name = "dish_id")
+    )
+    private Set<Dish> dishes;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    @Override
+    public String toString() {
+        return super.toString() + '(' + menuDate + ')';
+    }
 }

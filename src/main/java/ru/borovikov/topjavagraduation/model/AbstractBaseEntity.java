@@ -1,8 +1,8 @@
 package ru.borovikov.topjavagraduation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.data.domain.Persistable;
 
@@ -10,6 +10,8 @@ import org.springframework.data.domain.Persistable;
 @Setter
 @MappedSuperclass
 @Access(AccessType.FIELD)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractBaseEntity implements Persistable<Long> {
 
     public static final String SEQ_NAME = "global_seq";
@@ -21,6 +23,7 @@ public abstract class AbstractBaseEntity implements Persistable<Long> {
     protected Long id;
 
     @Override
+    @JsonIgnore
     public boolean isNew() {
         return getId() == null;
     }

@@ -1,16 +1,24 @@
 package ru.borovikov.topjavagraduation.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurants")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends AbstractNamedEntity {
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Menu> menus;
+    @OneToMany(
+            mappedBy = "restaurant",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Menu> menus = new HashSet<>();
 }

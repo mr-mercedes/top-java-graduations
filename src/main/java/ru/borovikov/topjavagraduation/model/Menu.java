@@ -17,19 +17,19 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "menu_date"},
         name = "uk_menus_restaurant_date")})
-public class Menu extends AbstractNamedEntity {
+public class Menu extends AbstractBaseEntity {
 
     @NotNull
     @Column(name = "menu_date", nullable = false)
     private LocalDate menuDate;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "menu_dishes",
-            joinColumns = @JoinColumn(name = "menu_id"),
-            inverseJoinColumns = @JoinColumn(name = "dish_id")
+    @OneToMany(
+            mappedBy = "menu",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private Set<Dish> dishes;
+    private Set<MenuItem> items;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

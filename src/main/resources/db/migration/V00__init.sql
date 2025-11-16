@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS menus
 (
     id            BIGINT PRIMARY KEY,
     restaurant_id BIGINT NOT NULL,
-    name          VARCHAR(255) NOT NULL,
     menu_date     DATE   NOT NULL,
     CONSTRAINT fk_menus_restaurants FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE,
     CONSTRAINT uk_menus_restaurant_date UNIQUE (restaurant_id, menu_date)
@@ -36,15 +35,16 @@ CREATE INDEX IF NOT EXISTS idx_menus_restaurant_id ON menus (restaurant_id);
 CREATE TABLE IF NOT EXISTS dishes
 (
     id    BIGINT PRIMARY KEY,
-    name  VARCHAR(255)   NOT NULL,
-    price NUMERIC(10, 2) NOT NULL CHECK (price > 0)
+    name  VARCHAR(255)   NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS menu_dishes
+CREATE TABLE IF NOT EXISTS menu_items
 (
+    id      BIGINT PRIMARY KEY,
     menu_id BIGINT NOT NULL,
     dish_id BIGINT NOT NULL,
-    CONSTRAINT pk_menu_dishes PRIMARY KEY (menu_id, dish_id),
-    CONSTRAINT fk_menu_dishes_menus FOREIGN KEY (menu_id) REFERENCES menus (id) ON DELETE CASCADE,
-    CONSTRAINT fk_menu_dishes_dishes FOREIGN KEY (dish_id) REFERENCES dishes (id) ON DELETE CASCADE
+    price   NUMERIC(10, 2) NOT NULL CHECK (price > 0),
+    CONSTRAINT uk_menu_items_menu_dish UNIQUE (menu_id, dish_id),
+    CONSTRAINT fk_menu_items_menus FOREIGN KEY (menu_id) REFERENCES menus (id) ON DELETE CASCADE,
+    CONSTRAINT fk_menu_items_dishes FOREIGN KEY (dish_id) REFERENCES dishes (id) ON DELETE CASCADE
 );

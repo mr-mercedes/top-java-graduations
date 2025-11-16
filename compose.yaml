@@ -4,7 +4,7 @@ services:
     container_name: voting_db
     image: postgres:16
     environment:
-      - POSTGRES_DB=dev
+      - POSTGRES_DB=voting
       - POSTGRES_PASSWORD=dev
       - POSTGRES_USER=dev
     ports:
